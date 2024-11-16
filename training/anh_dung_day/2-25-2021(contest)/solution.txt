@@ -1,0 +1,34 @@
+﻿--- SHIPPER ---
++ Thứ tự di chuyển là không quan trọng.
++ Những bài tìm min của max hoặc tìm max của min, có một cách thường nghĩ đến là chặt nhị phân
++ Nếu chênh lệch lớn nhất <= diff, thì tồn tại cách đi với chênh lệch lớn nhất <= diff + 1
++ Nếu chênh lệch lớn nhất > diff, thì không tồn tại cách đi với chênh lệch lớn nhất < diff - 1
+-> Chặt nhị phân kết quả bài toán, với mỗi giá trị diff, kiểm tra có tồn tại cách đi thăm hết tất cả các đơn hàng với độ chênh lệch <= diff bằng BFS
+
+
+--- RELATIVE ---
+Thực chất ta chỉ quan tâm trong mỗi mã phân loại có chứa những kí tự gì
+-> Mỗi mã phân loại sẽ sử dụng một xâu nhị phân có 10 bit để biểu thị mã đó có chứa kí tự gì, với bit thứ i bằng 1/0 nếu có/không có chữ số i trong mã đó.
+-> For tất cả cặp xâu nhị phân, kiểm tra 2 xâu đó có chung kí tự gì không và cập nhật kết quả bài toán.
+
+
+--- CLEAR ---
+Gọi F(i,j) là số điểm nhiều nhất có được khi qua màn i, và đã chơi ở j màn
+F(i,j) = F(i-1, j) - T nếu màn i dùng skip.
+F(i,j) = F(i-1,j-1) + a(i) nếu màn i lựa chọn chơi.
+
+
+--- ROUTE ---
+Gọi T là khoảng cách đường đi ngắn nhất từ A -> B trong đồ thị gốc.
+Gọi dA(u) là khoảng cách ngắn nhất từ đỉnh A -> u
+Gọi dB(u) là khoảng cách ngắn nhất từ đỉnh B -> u
+Độ dài đường đi ngắn nhất từ A -> B nếu qua cạnh (u,v) sẽ là min của:
+dA(u) + d(u,v) + dB(v) hoặc dA(v) + d(v,u) + dB(u)
+-> Với mỗi u, đếm số v thỏa mãn 
+dA(u) + d(u,v) + dB(v) < T
+<=> dB(v) < T - 1 - dA(u)
+Ta có thể chứng minh được nếu lúc tính u, ta đã cập nhật nghiệm (u,v) vào kết quả thì sẽ không thể bị tính trùng nghiệm (v,u) lúc tính v nữa.
+Điều này tương đương với việc chứng minh 2 điều kiện sau không thể đồng thời xảy ra (tự chứng minh)
+1, dA(u) + d(u,v) + dB(v) < T
+2, dA(v) + d(v,u) + dB(u) < T
+
